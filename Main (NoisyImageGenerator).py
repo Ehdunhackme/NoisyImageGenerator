@@ -4,6 +4,14 @@ from PIL import ImageTk, Image
 import numpy as np
 import cv2
 
+def generate_gaussian_noise(shape, mean=0, stddev=1):
+    noise = np.random.normal(mean, stddev, shape)
+    return noise
+
+def generate_gaussian_noise(shape, mean=0, stddev=1):
+    noise = np.random.normal(mean, stddev, shape)
+    return noise
+
 def generate_noisy_image(img_path, noise_scale, intensity, grayscale=False, pixelate=False):
     # Read the image
     img = cv2.imread(img_path)
@@ -15,8 +23,8 @@ def generate_noisy_image(img_path, noise_scale, intensity, grayscale=False, pixe
 
     img = img[..., ::-1] / 255.0  # Convert to float and normalize to [0, 1]
 
-    # Generate noise with specified scale
-    noise = np.random.normal(loc=0, scale=noise_scale, size=img.shape)
+    # Generate Gaussian noise with specified scale
+    noise = generate_gaussian_noise(img.shape, stddev=noise_scale)
 
     # Increase intensity of noise
     noisy_noise = noise * intensity
@@ -30,6 +38,7 @@ def generate_noisy_image(img_path, noise_scale, intensity, grayscale=False, pixe
         noisy_img = cv2.resize(noisy_img, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_NEAREST)
 
     return noisy_img
+
 
 # Function to preprocess image
 def preprocess_image(img):
